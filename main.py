@@ -12,10 +12,21 @@ check_url = '{}/user/checkin'.format(url)
 
 def sign(order,user,pwd):
         session = requests.session()
-        global url,SEKEY
+        global url,SCKEY
         header = {
+        'accept': 'application/json, text/javascript, */*; q=0.01',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'origin': url,
-        'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+        'referer': f'{url}/auth/login',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
+        'sec-ch-ua': '"Not(A:Brand";v="8", "Chromium";v="144", "Google Chrome";v="144"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'x-requested-with': 'XMLHttpRequest',
         }
         data = {
         'email': user,
