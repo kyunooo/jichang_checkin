@@ -13,12 +13,10 @@ check_url = '{}/user/checkin'.format(url)
 def sign(order,user,pwd):
         session = requests.session()
         global url,SCKEY
-        header = {
+        common_header = {
         'accept': 'application/json, text/javascript, */*; q=0.01',
         'accept-language': 'zh-CN,zh;q=0.9',
-        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'origin': url,
-        'referer': f'{url}/auth/login',
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
         'sec-ch-ua': '"Not(A:Brand";v="8", "Chromium";v="144", "Google Chrome";v="144"',
         'sec-ch-ua-mobile': '?0',
@@ -28,6 +26,17 @@ def sign(order,user,pwd):
         'sec-fetch-site': 'same-origin',
         'x-requested-with': 'XMLHttpRequest',
         }
+        login_header = {
+        **common_header,
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'referer': f'{url}/auth/login',
+        }
+        checkin_header = {
+        **common_header,
+        'cache-control': 'no-cache',
+        'pragma': 'no-cache',
+        'referer': f'{url}/user/panel',
+        }
         data = {
         'email': user,
         'passwd': pwd
@@ -35,12 +44,12 @@ def sign(order,user,pwd):
         try:
                 print(f'===账号{order}进行登录...===')
                 print(f'账号：{user}')
-                res = session.post(url=login_url,headers=header,data=data).text
+                res = session.post(url=login_url,headers=login_header,data=data).text
                 print(res)
                 response = json.loads(res)
                 print(response['msg'])
                 # 进行签到
-                res2 = session.post(url=check_url,headers=header).text
+                res2 = session.post(url=check_url,headers=checkin_header).text
                 print(res2)
                 result = json.loads(res2)
                 print(result['msg'])
