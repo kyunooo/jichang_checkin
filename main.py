@@ -41,9 +41,24 @@ def sign(order,user,pwd):
         'email': user,
         'passwd': pwd
         }
+        page_header = {
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
+        'sec-ch-ua': '"Not(A:Brand";v="8", "Chromium";v="144", "Google Chrome";v="144"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'none',
+        'sec-fetch-user': '?1',
+        'upgrade-insecure-requests': '1',
+        }
         try:
                 print(f'===账号{order}进行登录...===')
                 print(f'账号：{user}')
+                # 先访问登录页面，获取初始Cookie
+                session.get(url=login_url, headers=page_header)
                 res = session.post(url=login_url,headers=login_header,data=data).text
                 print(res)
                 response = json.loads(res)
