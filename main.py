@@ -63,6 +63,10 @@ def sign(order,user,pwd):
                 print(res)
                 response = json.loads(res)
                 print(response['msg'])
+                # 登录后访问用户面板页，模拟浏览器跳转
+                panel_url = f'{url}/user/panel'
+                panel_header = {**page_header, 'referer': login_url, 'sec-fetch-site': 'same-origin'}
+                session.get(url=panel_url, headers=panel_header)
                 # 进行签到
                 res2 = session.post(url=check_url,headers=checkin_header).text
                 print(res2)
